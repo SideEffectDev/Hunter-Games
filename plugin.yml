@@ -1,0 +1,12 @@
+name: HGInfection
+author: SideEffect
+version: 1.01
+main: me.sideeffect.huntergames.HunterGames
+commands:
+    setspawn:
+        description: Set an arena spawn
+    create:
+        description: Create an arena    
+    setlobby:
+        description: Set lobby spawn
+        

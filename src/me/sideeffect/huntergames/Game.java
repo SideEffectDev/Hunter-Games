@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
 
@@ -41,12 +42,12 @@ public static int CountDownTime;
 		    		 gameStarted = true;
 		    		 Bukkit.broadcastMessage(HunterGames.P + ChatColor.GRAY + " Game starting in " + ChatColor.GOLD + "45 seconds!");
 		    		 for (Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()) {
-		    			 //String Lobby = "Lobby";
-				    		//Location loc = new Location(Bukkit.getWorld(plugin.getConfig().getString(Lobby +  "." + ".W")), 
-				  		         // plugin.getConfig().getDouble(Lobby +  "." + "X"), 
-				  		          //plugin.getConfig().getDouble(Lobby +  "." + "Y"), 
-				  		          //plugin.getConfig().getDouble(Lobby +  "." + "Z"));
-	                     //onlinePlayers.teleport(loc);
+		    			 String Lobby = "Lobby";
+				    		Location loc = new Location(Bukkit.getWorld(plugin.getConfig().getString(Lobby +  "." + ".W")), 
+				  		          plugin.getConfig().getDouble(Lobby +  "." + "X"), 
+				  		          plugin.getConfig().getDouble(Lobby +  "." + "Y"), 
+				  		          plugin.getConfig().getDouble(Lobby +  "." + "Z"));
+	                     onlinePlayers.teleport(loc);
 	                      
 	                      onlinePlayers.setGameMode(GameMode.ADVENTURE);
 	                      }

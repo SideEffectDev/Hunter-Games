@@ -1,10 +1,7 @@
 package me.sideeffect.huntergames;
 
-import java.util.List;
-import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -32,15 +29,7 @@ public static String lastchoice;
   public static void printLine(String message) {
     System.out.println(ChatColor.GOLD + "[" + ChatColor.BLACK + ">" + ChatColor.WHITE + "Hunter" + ChatColor.DARK_RED + "Games" + ChatColor.BLACK + "<" + ChatColor.GOLD + "]" + ChatColor.RESET +  message);
   }
-  public static void chooseArena(){
-	  
-	  List<String> list = plugin.getConfig().getStringList("Arenas.List");
-	  Random rand = new Random();
-	  String arena = list.get(rand.nextInt(list.size()));
-	  plugin.getConfig().set("currentArena", "");
-	  plugin.getConfig().set("currentArena", arena);
-	  teleportToArena();
-  }
+  
   
   public static String getTime(Long Time)
   {
@@ -71,26 +60,7 @@ public static String lastchoice;
     }
     return false;
   }
-	public static void teleportToArena(){
-		Player randPlayer = getRandomPlayer();
-		if(!EventHandlers.zombieList.contains(randPlayer)){
-		String currentArena = plugin.getConfig().getString("currentArena");
-		Location loc = new Location(Bukkit.getWorld(plugin.getConfig().getString(currentArena + ".humans" + "." + ".W")), 
-		          plugin.getConfig().getDouble(currentArena + ".humans" + "." + "X"), 
-		          plugin.getConfig().getDouble(currentArena + ".humans" + "." + "Y"), 
-		          plugin.getConfig().getDouble(currentArena + ".humans" + "." + "Z"));
-		for(Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()){
-			onlinePlayers.teleport(loc);
-		}
-	}if(!EventHandlers.zombieList.contains(randPlayer)){
-		String currentArena = plugin.getConfig().getString("currentArena");
-		Location loc = new Location(Bukkit.getWorld(plugin.getConfig().getString(currentArena + ".humans" + "." + ".W")), 
-		          plugin.getConfig().getDouble(currentArena + ".zombies" + "." + "X"), 
-		          plugin.getConfig().getDouble(currentArena + ".zombies" + "." + "Y"), 
-		          plugin.getConfig().getDouble(currentArena + ".zombies" + "." + "Z"));
-		randPlayer.teleport(loc);
-		}
-	}
+	
   public static void announceStarted()
   {		
 	  randPlayer = getRandomPlayer();

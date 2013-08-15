@@ -4,7 +4,6 @@ package me.sideeffect.huntergames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.potion.PotionEffectType;
@@ -12,17 +11,9 @@ import org.bukkit.potion.PotionEffectType;
 public class Game
   implements Listener
   
-{ static HunterGames plugin;
-
-public Game(HunterGames instance) {
-plugin = instance;
-}  
+{ 
+	
     public static int timeVote;
-	public static int IntermissionTimeID;
-public static int CountDownTime;
-	public static int IntermissionTime;
-	
-	
 	public static boolean gameStarted = false;
 	public static boolean lobbyStarted = true;
 
@@ -36,20 +27,11 @@ public static int CountDownTime;
 		      
 		      if (!gameStarted) {
 		    	  
-		    			//Methods.startZombies = 0;
-		    		//Methods.startHumans = Bukkit.getOnlinePlayers().length;
-		    		 gameStarted = true;
-		    		 Bukkit.broadcastMessage(HunterGames.P + ChatColor.GRAY + " Game starting in " + ChatColor.GOLD + "45 seconds!");
-		    		 for (Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()) {
-		    			 //String Lobby = "Lobby";
-				    		//Location loc = new Location(Bukkit.getWorld(plugin.getConfig().getString(Lobby +  "." + ".W")), 
-				  		         // plugin.getConfig().getDouble(Lobby +  "." + "X"), 
-				  		          //plugin.getConfig().getDouble(Lobby +  "." + "Y"), 
-				  		          //plugin.getConfig().getDouble(Lobby +  "." + "Z"));
-	                     //onlinePlayers.teleport(loc);
-	                      
-	                      onlinePlayers.setGameMode(GameMode.ADVENTURE);
-	                      }
+		    	  HunterGames hg = new HunterGames();
+		    	  hg.tpToLobby();
+		    	  gameStarted = true;
+		    	  Bukkit.broadcastMessage(HunterGames.P + ChatColor.GRAY + " Game starting in " + ChatColor.GOLD + "45 seconds!");
+		    		 
 		    	HunterGames.timeVote = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(HunterGames.me, new Runnable()
 		          {  
 		    		
@@ -82,7 +64,8 @@ public static int CountDownTime;
 		                      }
 		                     
 		                      else if (timeleft < 1){
-		                    	  Methods.chooseArena();
+		                    	  HunterGames hg = new HunterGames();
+		                    	  hg.chooseArena();
 		                    	  lobbyStarted = false;
 		                    	  Methods.startGame();	 
 						    	  Methods.announceStarted(); 
@@ -123,7 +106,7 @@ public static int CountDownTime;
 							                     
 							                      else if (timeleft < 1)
 							                      {for (Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()) {
-								                    	 // String str = PlayerListener.zombieList.toString();
+								                    	 
 								                    	  Bukkit.broadcastMessage(HunterGames.P  + ChatColor.GRAY + "Game over! " + ChatColor.GOLD + " Humans win!");
 								                    	  gameStarted = false;
 								                    	  Bukkit.getServer().getScheduler().cancelTask(HunterGames.timeVote);

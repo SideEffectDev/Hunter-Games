@@ -18,15 +18,15 @@ public class SetspawnCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender s, Command cmd, String l,
 			String[] args) {
-		if(l.equalsIgnoreCase("setspawn")){
-			  Player player = (Player)s;
+		Player player = (Player)s;
+		if(l.equalsIgnoreCase("setspawn") && Methods.hasPermission(player, "huntergames.admin")){
+			  
 			String team = args[0];
 			String arena = args[1];;
 			
-			//List<String> List = plugin.plugin.plugin.getConfig().getStringList("Motd");
-			//for (String s : List){
+			
 			if(args.length < 2 && args.length >= 1){
-				player.sendMessage(HunterGames.P + ChatColor.GOLD + "/setspawn <Humans / Red> <Zombies>");
+				player.sendMessage(HunterGames.P + ChatColor.RED  + " /Setspawn" + ChatColor.GOLD + "<Humans / Zombies> + ChatColor.RED + <Arena>");
 			}if(args.length == 2){
 				
 				
@@ -34,14 +34,13 @@ public class SetspawnCommand implements CommandExecutor {
 	            
 	                
 	            
-				//if(s.toLowerCase().contains(arena.toLowerCase())){
+				
 				
 					if(team.toLowerCase().equals("humans") || team.toLowerCase().equals("zombies")){
-						player.sendMessage(HunterGames.P + "A spawn has been created at this location named " + arena + " for team " + team );
+						player.sendMessage(HunterGames.P + ChatColor.RED +  "You created the " + ChatColor.GOLD +  team + ChatColor.RED + " spawnpoint for the arena " + ChatColor.GOLD + arena);
 					
 					
-					//this.liste = plugin.plugin.getConfig().getStringList("Arenas.List");
-		            //this.liste.add(arena);
+					
 			        Location loc = player.getLocation();
 			        String w = player.getLocation().getWorld().getName().toString();
 			        plugin.getConfig().set(arena + "." + team + ".X", Double.valueOf(loc.getX()));
@@ -52,15 +51,14 @@ public class SetspawnCommand implements CommandExecutor {
 			        
 					}
 					
-			//}
 			
-			} //else{ //if(!s.toLowerCase().contains(arena.toLowerCase())){
-					//player.sendMessage(Tdm.P + ChatColor.RED + "There is no arena with that name!");
-				
-			//}
-		//}
+			
+			} 
 	    
 		
+	    }else {
+	    	s.sendMessage(ChatColor.RED + " You don't have " + ChatColor.GOLD + "permission" + ChatColor.RED + " for this command!");
+	    	
 	    }
 		return false;
 	}

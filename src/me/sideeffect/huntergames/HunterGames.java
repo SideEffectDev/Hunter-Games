@@ -4,7 +4,6 @@ package me.sideeffect.huntergames;
 import java.io.File;
 import java.util.List;
 import java.util.Random;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -25,20 +24,32 @@ public class HunterGames extends JavaPlugin
 	
 	public static String P; 
   public void onEnable()
-  {	   if (!new File(getDataFolder(), "config.yml").exists())
-      saveDefaultConfig();
-	  //loadConfig();
-	 
+  {	   
+	  loadConfig();
+	
     Methods.printLine("Version 0.1 Enabled");
     registerEvents();
     me = this;
     P = getConfig().getString("prefix");
     P.replaceAll("&", "§");
+    
     getCommand("create").setExecutor(new CreateCommand(this));
     getCommand("setspawn").setExecutor(new SetspawnCommand(this));
     getCommand("setlobby").setExecutor(new SetlobbyCommand(this));
-    saveConfig();
+    Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+		public void run() {
+			if(Game.gameStarted == false && Bukkit.getServer().getOnlinePlayers().length >= 2){
+				Game.startGame();
+			}
+		}
+	}, 0, 40);
     
+  }
+  public void loadConfig(){
+	  if (!new File(getDataFolder(), "config.yml").exists())
+	      saveDefaultConfig();
+	  saveConfig();
+	  
   }
   /*public void loadConfig() {
 		boolean configFileExistant = false;

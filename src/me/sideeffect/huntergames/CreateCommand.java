@@ -20,8 +20,11 @@ public class CreateCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender s, Command cmd, String l, String[]args){
 		  Player player = (Player)s;
-		 if(l.equalsIgnoreCase("create")){
+		
+		 if(l.equalsIgnoreCase("create") && Methods.hasPermission(player, "huntergames.admin")){
+			 
 				if(args.length < 1){
+					
 				player.sendMessage(HunterGames.P + ChatColor.RED + " /Create " + ChatColor.GOLD + "<Arena>");
 				}
 				List<String> list = plugin.getConfig().getStringList("Arenas.List");
@@ -46,7 +49,9 @@ public class CreateCommand implements CommandExecutor {
 		      
 		    	}
 			
-		    }		
+		    }else{
+		    	s.sendMessage(HunterGames.P + ChatColor.RED + " You don't have " + ChatColor.GOLD + "permission" + ChatColor.RED + " for this command!");
+		    }
 	return false;
 	}
 }

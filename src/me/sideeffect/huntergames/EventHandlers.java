@@ -118,8 +118,9 @@ public class EventHandlers
     }
     event.setDeathMessage(null);
 }
-  @EventHandler
+  @EventHandler(priority=EventPriority.LOWEST)
   /*    */   public void onPlayerJoin(PlayerJoinEvent e) {
+	  		plugin.saveConfig();
   			   if(Game.gameStarted){
   				   String currentArena = plugin.getConfig().getString("currentArena");
   				 Double x = plugin.getConfig().getDouble(currentArena +".zombies"+ ".X");
@@ -130,9 +131,7 @@ public class EventHandlers
   			    Player player = e.getPlayer();
   			    player.teleport(loc);
   			   }
-  			 if(Bukkit.getServer().getOnlinePlayers().length >= 2){
-  				Game.startGame();
-  			 }if(Bukkit.getServer().getOnlinePlayers().length< 2){
+  			 if(Bukkit.getServer().getOnlinePlayers().length< 2){
   				 Bukkit.broadcastMessage(HunterGames.P + ChatColor.RESET + ChatColor.RED + " One more player needs to join to be able to play!");
   				 
   			 }

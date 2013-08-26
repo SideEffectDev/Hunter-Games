@@ -1,0 +1,12 @@
+#Prefix that will appear before every message
+prefix: '&6[&0>&fHunter&4Games&0<&6]'
+General:
+  timeLimit: '150'
+  lobbyTime: '150'
+DisguiseCraft: true
+currentArena: none
+#All arenas created (Must set spawns for them to work)
+Arenas:
+  List:
+#Custom /help message
+Help: '&6[&0>&fHunter&4Games&0<&6] No commands to type!'

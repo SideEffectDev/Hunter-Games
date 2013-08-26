@@ -15,40 +15,41 @@ public class Methods
 
 	public Methods(HunterGames instance) {
 		plugin = instance;
-	}  
+	}
+	
 	public int jason = 5;
 	static Player randPlayer = null;
 	public static String lastchoice;
 
-
 	public static void printLine(String message) {
-		System.out.println(ChatColor.GOLD + "[" + ChatColor.BLACK + ">" + ChatColor.WHITE + "Hunter" + ChatColor.DARK_RED + "Games" + ChatColor.BLACK + "<" + ChatColor.GOLD + "]" + ChatColor.RESET +  message);
+		System.out.println(ChatColor.GOLD + "[" + ChatColor.BLACK + ">"
+				+ ChatColor.WHITE + "Hunter" + ChatColor.DARK_RED + "Games"
+				+ ChatColor.BLACK + "<" + ChatColor.GOLD + "]"
+				+ ChatColor.RESET + message);
 	}
 
-
-	public static String getTime(Long Time)
-	{
+	public static String getTime(Long Time) {
 		String times = null;
 		Long time = Time;
 		Long seconds = time;
 		long minutes = seconds / 60;
 		seconds %= 60;
-		if (seconds == 0)
-		{
-			if (minutes <= 1) times = minutes + " Minute";
-			else times = minutes + " Minutes";
-		}
-		else if (minutes == 0)
-		{
-			if (seconds <= 1) times = seconds + " Second";
-			else times = seconds + " Seconds";
-		}
-		else
-		{
+		if (seconds == 0) {
+			if (minutes <= 1)
+				times = minutes + " Minute";
+			else
+				times = minutes + " Minutes";
+		} else if (minutes == 0) {
+			if (seconds <= 1)
+				times = seconds + " Second";
+			else
+				times = seconds + " Seconds";
+		} else {
 			times = minutes + " Minutes " + seconds + " Seconds";
 		}
 		return times;
 	}
+
 	public static boolean hasPermission(Player player, String permission) {
 		if (player.hasPermission(permission)) {
 			return true;
@@ -56,31 +57,24 @@ public class Methods
 		return false;
 	}
 
-
-
 	public static Player getRandomPlayer() {
 		Player[] player = Bukkit.getOnlinePlayers();
-		Player randomPlayer = player[new java.util.Random().nextInt(player.length - 1)];
+		Player randomPlayer = player[new java.util.Random()
+		.nextInt(player.length - 1)];
 		return randomPlayer;
 	}
 
 	public static void givePlayerZombieHead(Player player) {
 		ItemStack head = new ItemStack(Material.SKULL_ITEM, 1);
-		head.setDurability((short)2);
+		head.setDurability((short) 2);
 		player.getInventory().setHelmet(head);
 
-		player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90010, 5));
-		player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90010, 4));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 90010,
+				5));
+		player.addPotionEffect(new PotionEffect(
+				PotionEffectType.INCREASE_DAMAGE, 90010, 4));
+		
+		
 	}
-
-
-
-
-	public static void startGame() {
-		Game.gameStarted = true;
-
-	}
-
-
 
 }

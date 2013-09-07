@@ -28,6 +28,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import pw.ender.messagebar.MessageBarSetEvent;
+
 public class PlayerListener implements Listener {
 	static HunterGames plugin;
 
@@ -213,7 +215,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent e) {
-		plugin.saveConfig();
+		
 
 		if (Game.gameStarted) {
 			String currentArena = plugin.getConfig().getString("currentArena");
@@ -253,7 +255,17 @@ public class PlayerListener implements Listener {
 			Game.startGame();
 		}
 	}
-
+	@EventHandler
+	public void onBarSet(MessageBarSetEvent e)
+	{if(zombieList.contains(e.getPlayer().getName())){
+		e.setMessage("§l§6Current Map: " + "§c" + HunterGames.currentMap);
+	}
+	if(!zombieList.contains(e.getPlayer().getName())){
+		e.setMessage("§l§6Current Map: " + "§c" + HunterGames.currentMap);
+	}
+	}
+	
+	
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityDeath(EntityDeathEvent e) {
 		Entity entityAttacked = e.getEntity();
@@ -287,9 +299,9 @@ public class PlayerListener implements Listener {
 							.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
 							zombieList.clear();
 
-							
-								onlinePlayers.setScoreboard(HunterGames.manager.getNewScoreboard());
-							
+
+							onlinePlayers.setScoreboard(HunterGames.manager.getNewScoreboard());
+
 
 							Game.startGame();
 						}
@@ -331,7 +343,7 @@ public class PlayerListener implements Listener {
 			onlinePlayers.getInventory().clear();
 
 		}
-		HunterGames.objective.setDisplayName("§7§l" + HunterGames.currentMap);
+
 
 	}
 	public static void endGame(){
@@ -362,21 +374,19 @@ public class PlayerListener implements Listener {
 			.cancelTask(
 					HunterGames.gameTime);
 
-			onlinePlayers
-			.removePotionEffect(PotionEffectType.SPEED);
-			onlinePlayers
-			.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
+			for (PotionEffect effect : onlinePlayers.getActivePotionEffects())
+				onlinePlayers.removePotionEffect(effect.getType());
 			PlayerListener.zombieList
 			.clear();
-			plugin.getConfig().set("currentArena", "None");
+			plugin.getConfig().set("currentArena", "Lobby");
 
 			Game.startGame();
 		}
 	}
 	public static void teleportToArena() {
 		for(Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()){
-			Player randonlinePlayers = Methods.getRandomPlayer();
-			if (!PlayerListener.zombieList.contains(randonlinePlayers)) {
+			Player randPlayer = Methods.getRandomPlayer();
+			if (!PlayerListener.zombieList.contains(randPlayer)) {
 
 				String currentArena = plugin.getConfig().getString("currentArena");
 				Location loc = new Location(Bukkit.getWorld(plugin.getConfig()
@@ -392,11 +402,14 @@ public class PlayerListener implements Listener {
 
 				onlinePlayers.teleport(loc);
 				onlinePlayers.getInventory().clear();
+				giveItems();
 				ItemStack item = new ItemStack(Material.WOOD_SWORD, 1);
 				item.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 3);
 				item.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
 				onlinePlayers.getInventory().addItem(item);
-				randonlinePlayers.getInventory().clear();
+				randPlayer.getInventory().clear();
+				giveZombieItems(randPlayer);
+
 			}
 
 		}
@@ -414,6 +427,35 @@ public class PlayerListener implements Listener {
 
 		}
 	}
+	public static void giveItems() {
+		for(Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()){
+			try{
+				String items = plugin.getConfig().getString("Kits.Humans.Items");
+				String[] indiItems = items.split(",");
+				for(String s : indiItems){
+					String[] itemAmounts = s.split("-");
+					ItemStack item = new ItemStack(Integer.valueOf(itemAmounts[0]), Integer.valueOf(itemAmounts[1]));
+					onlinePlayers.getInventory().addItem(item);
+				}
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	public static void giveZombieItems(Player player) {
+		try{
+			String items = plugin.getConfig().getString("Kits.Zombies.Items");
+			String[] indiItems = items.split(",");
+			for(String s : indiItems){
+				String[] itemAmounts = s.split("-");
+				ItemStack item = new ItemStack(Integer.valueOf(itemAmounts[0]), Integer.valueOf(itemAmounts[1]));
+				player.getInventory().addItem(item);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+
+	}
 	public static void announceStarted() {
 		randPlayer = Methods.getRandomPlayer();
 		PlayerListener.zombieList.add(randPlayer.getName());
@@ -427,4 +469,5 @@ public class PlayerListener implements Listener {
 				+ " You are a zombie. Your goal is to kill everyone human.");
 
 	}
+
 }

@@ -29,7 +29,6 @@ public class Game implements Listener
 			}
 
 			lobbyStarted = true;
-			HunterGames.objective.setDisplayName("§7§l" + HunterGames.currentMap);
 			HunterGames.timeVote = Bukkit.getServer().getScheduler()
 					.scheduleSyncRepeatingTask(HunterGames.me, new Runnable() {
 						private int timeleft = 45;
@@ -45,7 +44,7 @@ public class Game implements Listener
 								}
 
 							}
-							if (timeleft % 10 == 0) {
+							if (timeleft % 10 == 0 || (timeleft <= 5 && timeleft > 1)) {
 								for(Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()){
 									onlinePlayers.setScoreboard(HunterGames.scoreboard);
 								}

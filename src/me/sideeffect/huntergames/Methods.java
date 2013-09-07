@@ -28,28 +28,37 @@ public class Methods
 				+ ChatColor.RESET + message);
 	}
 
-	public static String getTime(Long Time) {
+	 
+
+	public static String getTime(long Time) {
 		String times = null;
-		Long time = Time;
-		Long seconds = time;
+		long time = Time;
+		long seconds = time;
 		long minutes = seconds / 60;
+		
 		seconds %= 60;
 		if (seconds == 0) {
-			if (minutes <= 1)
+			if (minutes <= 1){
 				times = minutes + " Minute";
-			else
+			}if(seconds == 0 && minutes == 0){
+				times = seconds + " Seconds";
+			}
+			else{
 				times = minutes + " Minutes";
+			}
 		} else if (minutes == 0) {
 			if (seconds <= 1)
 				times = seconds + " Second";
 			else
 				times = seconds + " Seconds";
-		} else {
-			times = minutes + " Minutes " + seconds + " Seconds";
 		}
+			
+	else 
+			times = minutes + " Minutes "+ "and " + seconds + " Seconds";
+		
 		return times;
+		
 	}
-
 	public static boolean hasPermission(Player player, String permission) {
 		if (player.hasPermission(permission)) {
 			return true;
@@ -76,5 +85,8 @@ public class Methods
 		
 		
 	}
+	HunterGames hg = new HunterGames();
+	int joey = hg.lTime;
+	
 
 }

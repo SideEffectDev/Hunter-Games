@@ -1,7 +1,5 @@
 package me.sideeffect.huntergames;
 
-import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -10,28 +8,21 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SetspawnCommand implements CommandExecutor {
-	static HunterGames plugin;
-
-	public SetspawnCommand(HunterGames instance) {
-		plugin = instance;
-	}
+	
+	static FileManager settings = FileManager.getInstance();
 
 	@Override
 	public boolean onCommand(CommandSender s, Command cmd, String l,
 			String[] args) {
+		
 		Player player = (Player) s;
 		if (l.equalsIgnoreCase("setspawn")
-				&& Methods.hasPermission(player, "huntergames.admin")) {
+				&& (Methods.hasPermission(player, "huntergames.admin")) || player.isOp()) {
 
-			List<String> list = plugin.getConfig().getStringList("Arenas.List");
-			if (args.length == 0) {
+			
+			if (args.length == 0 || args.length == 1) {
 				s.sendMessage(HunterGames.P + ChatColor.RED + " /Setspawn "
-						+ ChatColor.GOLD + "<Humans / Zombies>" + ChatColor.RED
-						+ "<Arena>");
-			}
-			if (args.length == 1) {
-				s.sendMessage(HunterGames.P + ChatColor.RED + " /Setspawn "
-						+ ChatColor.GOLD + "<Humans / Zombies>" + ChatColor.RED
+						+ ChatColor.GOLD + "<Humans / Zombies> " + ChatColor.RED
 						+ "<Arena>");
 			}
 			if (args.length == 2) {
@@ -42,28 +33,24 @@ public class SetspawnCommand implements CommandExecutor {
 
 				if (team.toLowerCase().equals("humans")
 						|| team.toLowerCase().equals("zombies")) {
-					player.sendMessage(HunterGames.P + ChatColor.RED
-							+ "You created the " + ChatColor.GOLD + team
-							+ ChatColor.RED + " spawnpoint for the arena "
-							+ ChatColor.GOLD + arena);
-					if (list.contains(arena)) {
-
+				
+					if (settings.getData().contains("Arenas." + arena)) {
+						
 						Location loc = player.getLocation();
 						String w = player.getLocation().getWorld().getName()
 								.toString();
-						plugin.getConfig().set(arena + "." + team + ".X",
+						settings.getData().set("Arenas." + arena + "." + team + ".X",
 								Double.valueOf(loc.getX()));
-						plugin.getConfig().set(arena + "." + team + ".Y",
+						settings.getData().set("Arenas." + arena + "." + team + ".Y",
 								Double.valueOf(loc.getY()));
-						plugin.getConfig().set(arena + "." + team + ".Z",
+						settings.getData().set("Arenas." + arena + "." + team + ".Z",
 								Double.valueOf(loc.getZ()));
-						plugin.getConfig().set(arena + "." + team + ".W", w);
-						plugin.saveConfig();
-					}
-					if (!list.contains(arena)) {
+						settings.getData().set("Arenas." + arena + "." + team + ".W", w);
+						settings.saveData();
 						player.sendMessage(HunterGames.P + ChatColor.RED
-								+ " The arena " + ChatColor.GOLD + arena
-								+ ChatColor.RED + " has not yet been created!");
+								+ "You created the " + ChatColor.GOLD + team
+								+ ChatColor.RED + " spawnpoint for the arena "
+								+ ChatColor.GOLD + arena);
 					}
 				}
 			}

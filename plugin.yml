@@ -3,26 +3,20 @@ author: SideEffect
 version: 0.3
 main: me.sideeffect.huntergames.HunterGames
 depend: [MessageBarAPI,]
+softdepend: [LibsDisguises,]
 commands:
    help:
      description: Help command
      aliases: [?, hlp, ls]
-     usage: /&lhelp
    create:
      description: Set the lobby for after each game
      aliases: [c, cr, crate, creat, cret]
-     permission: huntergames.admin
-     usage: /&lcreate <arena>
    setlobby:
      description: Set the lobby for after each game
      aliases: [setlob, sl]
-     permission: huntergames.admin
-     usage: /&lsetlobby
    setspawn:
      description: Set spawns for arenas
      aliases: [setsp, ss]
-     permission: huntergames.admin
-     usage: /&lsetspawn <humans/zombies> <arena>
 permissions:
    huntergames.*:
      description: All HunterGames commands under 1 permission

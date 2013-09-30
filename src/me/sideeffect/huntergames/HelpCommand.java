@@ -16,11 +16,14 @@ public class HelpCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender s, Command cmd, String l,
 			String[] args) {
 		Player p = (Player)s;
+		if(s instanceof Player){
 		if (!Methods.hasPermission(p, "huntergames.admin") && l.equalsIgnoreCase("help")) {
 			String help = plugin.getConfig().getString("Help");
 			String hlp = help.replaceAll("&", "§");
-			s.sendMessage(hlp);
-
+			p.sendMessage(hlp);
+			}
+		}else{
+			s.sendMessage(plugin.getConfig().getString("Help").replaceAll("&", "§"));
 		}
 		return false;
 	}

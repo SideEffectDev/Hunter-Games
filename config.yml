@@ -1,18 +1,24 @@
 #Prefix that will appear before every message
+################################################################
 prefix: '&6[&0>&fHunter&4Games&0<&6]'
+################################################################
 General:
-  timeLimit: '150'
-  lobbyTime: '150'
+  timeLimit: 150
+  lobbyTime: 45
   ScoreboardPrefix: '&6[&0>&fHunter&4Games&0<&6]'
-DisguiseCraft: true
-currentArena: none
-#All arenas created (Must set spawns for them to work)
-Arenas:
-  List:
+  MobSpawn: False
+################################################################
+ZombieDisguise: true
+################################################################
 #Custom /help message
 Help: '&6[&0>&fHunter&4Games&0<&6] No commands to type!'
+################################################################
+#The items that the infected and humans will get
 Kits:
   Humans:
     Items: 4-4,4-4,4-4
+    PotionEffects: 10-1,23-20
   Zombies:
     Items: 276-1,4-2
+    PotionEffects: 5-4,12-10,13-10,23-10,16-10,8-12,23-20
+################################################################

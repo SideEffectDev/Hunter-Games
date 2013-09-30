@@ -2,6 +2,7 @@ package me.sideeffect.huntergames;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
@@ -14,7 +15,7 @@ public class Game implements Listener
 		plugin = instance;
 	}
 
-	public static int timeVote;
+	public static int gameTime;
 	public static boolean gameStarted = false;
 	public static boolean lobbyStarted = false;
 
@@ -22,16 +23,18 @@ public class Game implements Listener
 
 		if (!gameStarted) {
 
-			PlayerListener.chooseArena();
-			PlayerListener.tpToLobby();
-			for(Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()){
-				onlinePlayers.setScoreboard(HunterGames.manager.getNewScoreboard());
-			}
-
+				PlayerListener.chooseArena();
+				Location loc = PlayerListener.Lobby();
+				for(Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()){
+					onlinePlayers.setScoreboard(HunterGames.manager.getNewScoreboard());
+					onlinePlayers.teleport(loc);
+					PlayerListener.removeEffects(onlinePlayers);
+				}
+			
 			lobbyStarted = true;
-			HunterGames.timeVote = Bukkit.getServer().getScheduler()
+			HunterGames.gameTime = Bukkit.getServer().getScheduler()
 					.scheduleSyncRepeatingTask(HunterGames.me, new Runnable() {
-						private int timeleft = 45;
+						private int timeleft = HunterGames.lobbyTime;
 
 						@Override
 						public void run() {
@@ -44,7 +47,8 @@ public class Game implements Listener
 								}
 
 							}
-							if (timeleft % 10 == 0 || (timeleft <= 5 && timeleft > 1)) {
+							if (timeleft % 10 == 0 || (timeleft == 5 || timeleft == 4 || timeleft == 3 || timeleft == 2
+									|| timeleft == 1)) {
 								for(Player onlinePlayers : Bukkit.getServer().getOnlinePlayers()){
 									onlinePlayers.setScoreboard(HunterGames.scoreboard);
 								}
@@ -69,7 +73,7 @@ public class Game implements Listener
 								PlayerListener.announceStarted();
 								PlayerListener.teleportToArena();
 								Bukkit.getServer().getScheduler()
-								.cancelTask(HunterGames.timeVote);
+								.cancelTask(HunterGames.gameTime);
 								Bukkit.getServer().getScheduler()
 								.cancelTask(HunterGames.gameTime);
 								Bukkit.broadcastMessage(HunterGames.P
@@ -84,7 +88,7 @@ public class Game implements Listener
 										.scheduleSyncRepeatingTask(
 												HunterGames.me, new Runnable() {
 
-													private int timeleft = 150;
+													private int timeleft = HunterGames.timeLimit;
 
 													@Override
 													public void run() {
@@ -116,7 +120,7 @@ public class Game implements Listener
 																	.setLevel(timeleft);
 																}
 															} else if (timeleft == 5 || timeleft == 4 || timeleft == 3 || timeleft == 2
-																	) {
+																	|| timeleft == 1) {
 																Bukkit.broadcastMessage(HunterGames.P
 																		+ " "
 																		+ ChatColor.GOLD

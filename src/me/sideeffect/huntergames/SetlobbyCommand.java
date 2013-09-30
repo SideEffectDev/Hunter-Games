@@ -8,17 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SetlobbyCommand implements CommandExecutor {
-	static HunterGames plugin;
-
-	public SetlobbyCommand(HunterGames instance) {
-		plugin = instance;
-	}
+	static FileManager settings = FileManager.getInstance();
 
 	@Override
 	public boolean onCommand(CommandSender s, Command cmd, String l,
 			String[] args) {
 		Player player = (Player) s;
-		if (Methods.hasPermission(player, "huntergames.admin")) {
+		if ((Methods.hasPermission(player, "huntergames.admin")) || player.isOp()) {
 			if (l.equalsIgnoreCase("setlobby") && args.length == 0) {
 
 				s.sendMessage(HunterGames.P + ChatColor.GOLD + " The "
@@ -26,14 +22,14 @@ public class SetlobbyCommand implements CommandExecutor {
 						+ " SpawnPoint has been set!");
 				Location loc = player.getLocation();
 				String w = player.getLocation().getWorld().getName().toString();
-				plugin.getConfig().set("Lobby" + "." + "X",
+				settings.getData().set("Lobby" + "." + "X",
 						Double.valueOf(loc.getX()));
-				plugin.getConfig().set("Lobby" + "." + "Y",
+				settings.getData().set("Lobby" + "." + "Y",
 						Double.valueOf(loc.getY()));
-				plugin.getConfig().set("Lobby" + "." + "Z",
+				settings.getData().set("Lobby" + "." + "Z",
 						Double.valueOf(loc.getZ()));
-				plugin.getConfig().set("Lobby" + "." + "W", w);
-				plugin.saveConfig();
+				settings.getData().set("Lobby" + "." + "W", w);
+				settings.saveData();
 			} else {
 				s.sendMessage(HunterGames.P + ChatColor.RED
 						+ " Something went wrong!");
